@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="UserName">UserName</string>
+    <string name="PassWord">PassWord</string>
+    <string name="Name">Name</string>
+    <string name="Login">Login</string>
+    <string name="Title">Tittle</string>
+    <string name="Exit">Exit</string>
+</resources>
