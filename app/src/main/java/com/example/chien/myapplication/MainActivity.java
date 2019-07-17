@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -36,11 +37,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
-
+        mEdtUserName.setText("admin");
+        mEdtPass.setText("123456");
 
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 String userName = mEdtUserName.getText().toString();
                 String pass = mEdtPass.getText().toString();
 
@@ -52,7 +56,8 @@ public class MainActivity extends AppCompatActivity {
                     AsyncTask asyncTask = new AsyncTask();
                     asyncTask.execute("http://dotplays.com/android/login.php");
                 } else {
-                    Toast.makeText(MainActivity.this, "Sai tai khoan hoac mat khau", Toast.LENGTH_SHORT).show();
+                    AsyncTask asyncTask = new AsyncTask();
+                    asyncTask.execute("http://dotplays.com/android/login.php");
                 }
             }
         });
@@ -66,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+Log.e("hehehehee",""+s);
+
             Toast.makeText(MainActivity.this, s, Toast.LENGTH_SHORT).show();
         }
 
@@ -73,6 +80,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... strings) {
 
+            String username = mEdtUserName.getText().toString().trim();
+            String pass = mEdtPass.getText().toString().trim();
+            String name = mEdtName.getText().toString().trim();
             try {
                 URL url = new URL(strings[0]);
 
@@ -83,8 +93,23 @@ public class MainActivity extends AppCompatActivity {
                 // khoi tao param
                 StringBuilder params = new StringBuilder();
 
-                params.append(mEdtUserName.getText().toString());
-                params.append(mEdtPass.getText().toString());
+
+
+                params.append("&");
+                params.append("username");
+                params.append("=");
+                params.append(username);
+
+                params.append("&");
+                params.append("password");
+                params.append("=");
+                params.append(pass);
+
+                params.append("&");
+                params.append("name");
+                params.append("=");
+                params.append(name);
+
 
 
                 OutputStream os = httpURLConnection.getOutputStream();

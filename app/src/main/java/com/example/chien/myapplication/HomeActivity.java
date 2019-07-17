@@ -3,8 +3,10 @@ package com.example.chien.myapplication;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -13,6 +15,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class HomeActivity extends AppCompatActivity {
@@ -27,13 +30,23 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         initView();
 
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         String name = intent.getStringExtra("key");
         mTextView.setText("Xin chào nhân viên " + name);
+
 
         MyAsyncTask myAsyncTask = new MyAsyncTask();
         myAsyncTask.execute("http://dotplays.com/android/bai1.php?food=today\n");
 
+
+        mButton2.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Intent intent1 = new Intent(HomeActivity.this,MainActivity.class);
+                                            startActivity(intent1);
+                                        }
+                                    }
+        );
     }
 
     private void initView() {
@@ -72,7 +85,7 @@ public class HomeActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             Log.e("data", s);
-            mTextView2.setText(s);
+            mTextView2.setText(s.replace("\\n", Objects.requireNonNull(System.getProperty("line.separator"))));
 
         }
     }
