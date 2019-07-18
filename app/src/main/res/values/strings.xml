@@ -6,4 +6,7 @@
     <string name="Login">Login</string>
     <string name="Title">Tittle</string>
     <string name="Exit">Exit</string>
+    <string name="id">id</string>
+    <string name="date">Date</string>
+    <string name="rendered">rendered</string>
 </resources>

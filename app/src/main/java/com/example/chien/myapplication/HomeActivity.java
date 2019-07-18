@@ -3,17 +3,12 @@ package com.example.chien.myapplication;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,7 +21,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class HomeActivity extends AppCompatActivity {
@@ -34,6 +28,8 @@ public class HomeActivity extends AppCompatActivity {
     private TextView mTextView;
     private TextView mTextView2;
     private Button mButton2;
+    private RecyclerView mRv;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +42,7 @@ public class HomeActivity extends AppCompatActivity {
         mTextView.setText("Xin chào nhân viên " + name);
 
 
+
         MyAsyncTask myAsyncTask = new MyAsyncTask();
 //        myAsyncTask.execute("http://dotplays.com/android/bai1.php?food=today\n");
         myAsyncTask.execute("http://asian.dotplays.com/wp-json/wp/v2/posts?embed");
@@ -54,7 +51,7 @@ public class HomeActivity extends AppCompatActivity {
         mButton2.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
-                                            Intent intent1 = new Intent(HomeActivity.this,MainActivity.class);
+                                            Intent intent1 = new Intent(HomeActivity.this, MainActivity.class);
                                             startActivity(intent1);
                                         }
                                     }
@@ -65,6 +62,7 @@ public class HomeActivity extends AppCompatActivity {
         mTextView = findViewById(R.id.textView);
         mTextView2 = findViewById(R.id.textView2);
         mButton2 = findViewById(R.id.button2);
+        mRv = findViewById(R.id.rv);
     }
 
     public class MyAsyncTask extends AsyncTask<String, Long, String> {
@@ -102,7 +100,7 @@ public class HomeActivity extends AppCompatActivity {
                 List<Model> modelList = new ArrayList<>();
                 JSONArray root = new JSONArray(s);
 
-                for (int i=0;i<root.length();i++){
+                for (int i = 0; i < root.length(); i++) {
                     JSONObject post = root.getJSONObject(i);
                     int id = post.getInt("id");
                     String date = post.getString("date");
@@ -110,20 +108,18 @@ public class HomeActivity extends AppCompatActivity {
                     JSONObject title = post.getJSONObject("title");
                     String rendered = title.getString("rendered");
 
-                    Log.e("id",String.valueOf(id));
-                    Log.e("date",String.valueOf(date));
-                    Log.e("date",rendered);
+                    Log.e("id", String.valueOf(id));
+                    Log.e("date", String.valueOf(date));
+                    Log.e("date", rendered);
 
-                    Model model = new Model();
-                    model.id = id;
-                    model.date = date;
-                    model.title = rendered;
+                    Model model = new Model(id,date,rendered);
                     modelList.add(model);
 
 
-                    Log.e("ModelList","" + modelList.size());
+                    Log.e("ModelList", "" + modelList.size());
 
                 }
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
